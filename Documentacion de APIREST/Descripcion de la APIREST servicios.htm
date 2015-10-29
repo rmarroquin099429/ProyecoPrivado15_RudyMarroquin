@@ -1,0 +1,4276 @@
+<!DOCTYPE html>
+<html><head>
+  <title>Descripcion de la APIREST servicios</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link href="Descripcion%20de%20la%20APIREST%20servicios_files/bootstrap.css" rel="stylesheet" media="screen">
+  <link href="Descripcion%20de%20la%20APIREST%20servicios_files/prettify.css" rel="stylesheet" media="screen">
+  <link href="Descripcion%20de%20la%20APIREST%20servicios_files/style.css" rel="stylesheet" media="screen, print">
+  <link href="http://localhost/apiDocumentacion/documentation/img/favicon.ico" rel="icon" type="image/x-icon">
+  <script src="Descripcion%20de%20la%20APIREST%20servicios_files/polyfill.js"></script>
+<script src="Descripcion%20de%20la%20APIREST%20servicios_files/main.js" data-requiremodule="main" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/jquery.js" data-requiremodule="jquery" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/lodash.js" data-requiremodule="lodash" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/locale.js" data-requiremodule="locales" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/api_project.js" data-requiremodule="api_project.js" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/api_data.js" data-requiremodule="api_data.js" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/send_sample_request.js" data-requiremodule="utilsSampleRequest" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/index.js" data-requiremodule="pathToRegexp" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/prettify.js" data-requiremodule="prettify" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/handlebars.js" data-requiremodule="handlebars" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/de.js" data-requiremodule="locales/de.js" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/fr.js" data-requiremodule="locales/fr.js" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/nl.js" data-requiremodule="locales/nl.js" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/pl.js" data-requiremodule="locales/pl.js" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/pt_br.js" data-requiremodule="locales/pt_br.js" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/ru.js" data-requiremodule="locales/ru.js" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/zh.js" data-requiremodule="locales/zh.js" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/handlebars_helper.js" data-requiremodule="handlebarsExtended" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/bootstrap.js" data-requiremodule="bootstrap" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="Descripcion%20de%20la%20APIREST%20servicios_files/diff_match_patch.js" data-requiremodule="diffMatchPatch" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><link href="Descripcion%20de%20la%20APIREST%20servicios_files/css.css" type="text/css" rel="stylesheet"></head>
+<body>
+
+<script id="template-sidenav" type="text/x-handlebars-template">
+<nav id="scrollingNav">
+  <ul class="sidenav nav nav-list">
+  {{#each nav}}
+    {{#if title}}
+      {{#if isHeader}}
+        {{#if isFixed}}
+          <li class="nav-fixed nav-header" data-group="{{group}}"><a href="#api-{{group}}">{{underscoreToSpace title}}</a></li>
+        {{else}}
+          <li class="nav-header" data-group="{{group}}"><a href="#api-{{group}}">{{underscoreToSpace title}}</a></li>
+        {{/if}}
+      {{else}}
+        <li {{#if hidden}}class="hide" {{/if}}data-group="{{group}}" data-name="{{name}}" data-version="{{version}}">
+          <a href="#api-{{group}}-{{name}}">{{title}}</a>
+        </li>
+      {{/if}}
+    {{/if}}
+  {{/each}}
+  </ul>
+</nav>
+</script>
+
+<script id="template-project" type="text/x-handlebars-template">
+  <div class="pull-left">
+    <h1>{{name}}</h1>
+    {{#if description}}<h2>{{{nl2br description}}}</h2>{{/if}}
+  </div>
+  {{#if template.withCompare}}
+  <div class="pull-right">
+    <div class="btn-group">
+      <button id="version" class="btn btn-large dropdown-toggle" data-toggle="dropdown">
+        <strong>{{version}}</strong> <span class="caret"></span>
+      </button>
+      <ul id="versions" class="dropdown-menu open-left">
+          <li><a id="compareAllWithPredecessor" href="#">{{__ "Compare all with predecessor"}}</a></li>
+          <li class="divider"></li>
+          <li class="disabled"><a href="#">{{__ "show up to version:"}}</a></li>
+  {{#each versions}}
+        <li class="version"><a href="#">{{this}}</a></li>
+  {{/each}}
+      </ul>
+    </div>
+  </div>
+  {{/if}}
+  <div class="clearfix"></div>
+</script>
+
+<script id="template-header" type="text/x-handlebars-template">
+  {{#if content}}
+    <div id="api-_">{{{content}}}</div>
+  {{/if}}
+</script>
+
+<script id="template-footer" type="text/x-handlebars-template">
+  {{#if content}}
+    <div id="api-_footer">{{{content}}}</div>
+  {{/if}}
+</script>
+
+<script id="template-generator" type="text/x-handlebars-template">
+  {{#if template.withGenerator}}
+    {{#if generator}}
+      <div class="content">
+        {{__ "Generated with"}} <a href="{{{generator.url}}}">{{{generator.name}}}</a> {{{generator.version}}} - {{{generator.time}}}
+      </div>
+    {{/if}}
+  {{/if}}
+</script>
+
+<script id="template-sections" type="text/x-handlebars-template">
+  <section id="api-{{group}}">
+    <h1>{{underscoreToSpace title}}</h1>
+    {{#if description}}
+      <p>{{{nl2br description}}}</p>
+    {{/if}}
+    {{#each articles}}
+      <div id="api-{{group}}-{{name}}">
+        {{{article}}}
+      </div>
+    {{/each}}
+  </section>
+</script>
+
+<script id="template-article" type="text/x-handlebars-template">
+  <article id="api-{{article.group}}-{{article.name}}-{{article.version}}" {{#if hidden}}class="hide"{{/if}} data-group="{{article.group}}" data-name="{{article.name}}" data-version="{{article.version}}">
+    <div class="pull-left">
+      <h1>{{article.groupTitle}}{{#if article.title}} - {{article.title}}{{/if}}</h1>
+    </div>
+    {{#if template.withCompare}}
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>{{article.version}}</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">{{__ "compare changes to:"}}</a></li>
+  {{#each versions}}
+          <li class="version"><a href="#">{{this}}</a></li>
+  {{/each}}
+        </ul>
+      </div>
+    </div>
+    {{/if}}
+    <div class="clearfix"></div>
+
+    {{#if article.description}}
+      <p>{{{nl2br article.description}}}</p>
+    {{/if}}
+
+    <pre class="prettyprint language-html" data-type="{{toLowerCase article.type}}"><code>{{article.url}}</code></pre>
+
+    {{#if article.permission}}
+      <p>
+        {{__ "Permission:"}}
+        {{#each article.permission}}
+          {{name}}
+          {{#if title}}
+            &nbsp;<a href="#" data-toggle="popover" data-placement="right" data-html="true" data-content="{{nl2br description}}" title="" data-original-title="{{title}}"><span class="label label-info"><i class="icon icon-info-sign icon-white"></i></span></a>
+            {{#unless @last}}, {{/unless}}
+          {{/if}}
+        {{/each}}
+      </p>
+    {{/if}}
+
+    {{#if_gt article.examples.length compare=0}}
+      <ul class="nav nav-tabs nav-tabs-examples">
+        {{#each article.examples}}
+          <li{{#if_eq @index compare=0}} class="active"{{/if_eq}}>
+            <a href="#examples-{{../id}}-{{@index}}">{{title}}</a>
+          </li>
+        {{/each}}
+      </ul>
+
+      <div class="tab-content">
+      {{#each article.examples}}
+        <div class="tab-pane{{#if_eq @index compare=0}} active{{/if_eq}}" id="examples-{{../id}}-{{@index}}">
+          <pre class="prettyprint language-{{type}}" data-type="{{type}}"><code>{{content}}</code></pre>
+        </div>
+      {{/each}}
+      </div>
+    {{/if_gt}}
+
+    {{subTemplate "article-param-block" params=article.header _hasType=_hasTypeInHeaderFields section="header"}}
+    {{subTemplate "article-param-block" params=article.parameter _hasType=_hasTypeInParameterFields section="parameter"}}
+    {{subTemplate "article-param-block" params=article.success _hasType=_hasTypeInSuccessFields section="success"}}
+    {{subTemplate "article-param-block" params=article.error _col1="Name" _hasType=_hasTypeInErrorFields section="error"}}
+
+    {{subTemplate "article-sample-request" article=article id=id}}
+
+  </article>
+</script>
+
+<script id="template-article-param-block" type="text/x-handlebars-template">
+  {{#if params}}
+    {{#each params.fields}}
+      <h2>{{__ @key}}</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">{{#if _col1}}{{__ _col1}}{{else}}{{__ "Field"}}{{/if}}</th>
+            {{#if ../../_hasType}}<th style="width: 10%">{{__ "Type"}}</th>{{/if}}
+            <th style="width: {{#if _hasType}}60%{{else}}70%{{/if}}">{{__ "Description"}}</th>
+          </tr>
+        </thead>
+        <tbody>
+      {{#each this}}
+          <tr>
+            <td class="code">{{{splitFill field "." "&nbsp;&nbsp;"}}}{{#if optional}} <span class="label label-optional">{{__ "optional"}}</span>{{/if}}</td>
+            {{#if ../../_hasType}}
+              <td>
+                {{{type}}}
+              </td>
+            {{/if}}
+            <td>
+            {{{nl2br description}}}
+            {{#if defaultValue}}<p class="default-value">{{__ "Default value:"}} <code>{{{defaultValue}}}</code></p>{{/if}}
+            {{#if size}}<p class="type-size">{{__ "Size range:"}} <code>{{{size}}}</code></p>{{/if}}
+            {{#if allowedValues}}<p class="type-size">{{__ "Allowed values:"}}
+              {{#each allowedValues}}
+                <code>{{{this}}}</code>{{#unless @last}}, {{/unless}}
+              {{/each}}
+              </p>
+            {{/if}}
+            </td>
+          </tr>
+      {{/each}}
+        </tbody>
+      </table>
+    {{/each}}
+
+    {{#if_gt params.examples.length compare=0}}
+      <ul class="nav nav-tabs nav-tabs-examples">
+        {{#each params.examples}}
+          <li{{#if_eq @index compare=0}} class="active"{{/if_eq}}>
+            <a href="#{{../section}}-examples-{{../id}}-{{@index}}">{{title}}</a>
+          </li>
+        {{/each}}
+      </ul>
+
+      <div class="tab-content">
+      {{#each params.examples}}
+        <div class="tab-pane{{#if_eq @index compare=0}} active{{/if_eq}}" id="{{../section}}-examples-{{../id}}-{{@index}}">
+        <pre class="prettyprint language-{{type}}" data-type="{{type}}"><code>{{content}}</code></pre>
+        </div>
+      {{/each}}
+      </div>
+    {{/if_gt}}
+
+  {{/if}}
+</script>
+
+<script id="template-article-sample-request" type="text/x-handlebars-template">
+    {{#if article.sampleRequest}}
+      <h2>{{__ "Send a Sample Request"}}</h2>
+      <form class="form-horizontal">
+        <fieldset>
+          <div class="control-group">
+            <div class="controls">
+              <div class="input-prepend">>
+                <span class="add-on">{{__ "url"}}</span>
+                <input type="text" class="input-xxlarge sample-request-url" value="{{article.sampleRequest.0.url}}" />
+              </div>
+            </div>
+          </div>
+
+      {{#if article.header}}
+        {{#if article.header.fields}}
+          <h3>{{__ "Headers"}}</h3>
+          {{#each article.header.fields}}
+            <h4><input type="radio" data-sample-request-header-group-id="sample-request-header-{{@index}}" name="{{../id}}-sample-request-header" value="{{@index}}" class="sample-request-header sample-request-switch"{{#if_eq @index compare=0}} checked{{/if_eq}}> {{@key}}</h4>
+            <div class="{{../id}}-sample-request-header-fields{{#if_gt @index compare=0}} hide{{/if_gt}}">
+              {{#each this}}
+              <div class="control-group">
+                <label class="control-label" for="sample-request-header-field-{{field}}">{{field}}</label>
+                <div class="controls">
+                  <div class="input-append">>
+                    <input type="text" placeholder="{{field}}" class="input-xxlarge sample-request-header" data-sample-request-header-name="{{field}}" data-sample-request-header-group="sample-request-header-{{@../index}}">
+                    <span class="add-on">{{type}}</span>
+                  </div>
+                </div>
+              </div>
+              {{/each}}
+            </div>
+          {{/each}}
+        {{/if}}
+      {{/if}}
+
+      {{#if article.parameter}}
+        {{#if article.parameter.fields}}
+          <h3>{{__ "Parameters"}}</h3>
+          {{#each article.parameter.fields}}
+            <h4><input type="radio" data-sample-request-param-group-id="sample-request-param-{{@index}}"  name="{{../id}}-sample-request-param" value="{{@index}}" class="sample-request-param sample-request-switch"{{#if_eq @index compare=0}} checked{{/if_eq}}> {{@key}}</h4>
+            <div class="{{../id}}-sample-request-param-fields{{#if_gt @index compare=0}} hide{{/if_gt}}">
+              {{#each this}}
+              <div class="control-group">
+                <label class="control-label" for="sample-request-param-field-{{field}}">{{field}}</label>
+                <div class="controls">
+                  <div class="input-append">>
+                    <input type="text" placeholder="{{field}}" class="input-xxlarge sample-request-param" data-sample-request-param-name="{{field}}" data-sample-request-param-group="sample-request-param-{{@../index}}">
+                    <span class="add-on">{{type}}</span>
+                  </div>
+                </div>
+              </div>
+              {{/each}}
+            </div>
+          {{/each}}
+        {{/if}}
+      {{/if}}
+
+          <div class="control-group">
+            <div class="controls">
+              <button class="btn btn-default sample-request-send" data-sample-request-type="{{article.type}}">{{__ "Send"}}</button>
+            </div>
+          </div>
+
+          <div class="sample-request-response" style="display: none;">
+            <h3>
+              {{__ "Response"}}
+              <button class="btn btn-small btn-default pull-right sample-request-clear">X</button>
+            </h3>
+            <pre class="prettyprint language-json" data-type="json"><code class="sample-request-response-json"></code></pre>
+          </div>
+
+        </fieldset>
+      </form>
+    {{/if}}
+</script>
+
+<script id="template-compare-article" type="text/x-handlebars-template">
+  <article id="api-{{article.group}}-{{article.name}}-{{article.version}}" {{#if hidden}}class="hide"{{/if}} data-group="{{article.group}}" data-name="{{article.name}}" data-version="{{article.version}}" data-compare-version="{{compare.version}}">
+    <div class="pull-left">
+      <h1>{{underscoreToSpace article.group}} - {{{showDiff article.title compare.title}}}</h1>
+    </div>
+
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="btn btn-success" disabled>
+          <strong>{{article.version}}</strong> {{__ "compared to"}}
+        </button>
+        <button class="version btn btn-danger dropdown-toggle" data-toggle="dropdown">
+          <strong>{{compare.version}}</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">{{__ "compare changes to:"}}</a></li>
+          <li class="divider"></li>
+  {{#each versions}}
+          <li class="version"><a href="#">{{this}}</a></li>
+  {{/each}}
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+    {{#if article.description}}
+      <p>{{{showDiff article.description compare.description "nl2br"}}}</p>
+    {{else}}
+      {{#if compare.description}}
+      <p>{{{showDiff "" compare.description "nl2br"}}}</p>
+      {{/if}}
+    {{/if}}
+
+    <pre class="prettyprint language-html" data-type="{{toLowerCase article.type}}"><code>{{{showDiff article.url compare.url}}}</code></pre>
+
+    {{subTemplate "article-compare-permission" article=article compare=compare}}
+
+    <ul class="nav nav-tabs nav-tabs-examples">
+    {{#each_compare_title article.examples compare.examples}}
+
+      {{#if typeSame}}
+        <li{{#if_eq index compare=0}} class="active"{{/if_eq}}>
+          <a href="#compare-examples-{{../../article.id}}-{{index}}">{{{showDiff source.title compare.title}}}</a>
+        </li>
+      {{/if}}
+
+      {{#if typeIns}}
+        <li{{#if_eq index compare=0}} class="active"{{/if_eq}}>
+          <a href="#compare-examples-{{../../article.id}}-{{index}}"><ins>{{{source.title}}}</ins></a>
+        </li>
+      {{/if}}
+
+      {{#if typeDel}}
+        <li{{#if_eq index compare=0}} class="active"{{/if_eq}}>
+          <a href="#compare-examples-{{../../article.id}}-{{index}}"><del>{{{compare.title}}}</del></a>
+        </li>
+      {{/if}}
+
+    {{/each_compare_title}}
+    </ul>
+
+    <div class="tab-content">
+    {{#each_compare_title article.examples compare.examples}}
+
+      {{#if typeSame}}
+        <div class="tab-pane{{#if_eq index compare=0}} active{{/if_eq}}" id="compare-examples-{{../../article.id}}-{{index}}">
+          <pre class="prettyprint language-{{source.type}}" data-type="{{source.type}}"><code>{{{showDiff source.content compare.content}}}</code></pre>
+        </div>
+      {{/if}}
+
+      {{#if typeIns}}
+        <div class="tab-pane{{#if_eq index compare=0}} active{{/if_eq}}" id="compare-examples-{{../../article.id}}-{{index}}">
+          <pre class="prettyprint language-{{source.type}}" data-type="{{source.type}}"><code>{{{source.content}}}</code></pre>
+        </div>
+      {{/if}}
+
+      {{#if typeDel}}
+        <div class="tab-pane{{#if_eq index compare=0}} active{{/if_eq}}" id="compare-examples-{{../../article.id}}-{{index}}">
+          <pre class="prettyprint language-{{source.type}}" data-type="{{compare.type}}"><code>{{{compare.content}}}</code></pre>
+        </div>
+      {{/if}}
+
+    {{/each_compare_title}}
+    </div>
+
+    {{subTemplate "article-compare-param-block" source=article.parameter compare=compare.parameter _hasType=_hasTypeInParameterFields section="parameter"}}
+    {{subTemplate "article-compare-param-block" source=article.success compare=compare.success _hasType=_hasTypeInSuccessFields section="success"}}
+    {{subTemplate "article-compare-param-block" source=article.error compare=compare.error _col1="Name" _hasType=_hasTypeInErrorFields section="error"}}
+
+    {{subTemplate "article-sample-request" article=article id=id}}
+
+  </article>
+</script>
+
+<script id="template-article-compare-permission" type="text/x-handlebars-template">
+  {{#each_compare_list_field article.permission compare.permission field="name"}}
+    {{#if source}}
+      {{#if typeSame}}
+        {{source.name}}
+        {{#if source.title}}
+          &nbsp;<a href="#" data-toggle="popover" data-placement="right" data-html="true" data-content="{{nl2br source.description}}" title="" data-original-title="{{source.title}}"><span class="label label-info"><i class="icon icon-info-sign icon-white"></i></span></a>
+          {{#unless _last}}, {{/unless}}
+        {{/if}}
+      {{/if}}
+
+      {{#if typeIns}}
+        <ins>{{source.name}}</ins>
+        {{#if source.title}}
+          &nbsp;<a href="#" data-toggle="popover" data-placement="right" data-html="true" data-content="{{nl2br source.description}}" title="" data-original-title="{{source.title}}"><span class="label label-info"><i class="icon icon-info-sign icon-white"></i></span></a>
+          {{#unless _last}}, {{/unless}}
+        {{/if}}
+      {{/if}}
+
+      {{#if typeDel}}
+        <del>{{source.name}}</del>
+        {{#if source.title}}
+          &nbsp;<a href="#" data-toggle="popover" data-placement="right" data-html="true" data-content="{{nl2br source.description}}" title="" data-original-title="{{source.title}}"><span class="label label-info"><i class="icon icon-info-sign icon-white"></i></span></a>
+          {{#unless _last}}, {{/unless}}
+        {{/if}}
+      {{/if}}
+    {{else}}
+      {{#if typeSame}}
+        {{compare.name}}
+        {{#if compare.title}}
+          &nbsp;<a href="#" data-toggle="popover" data-placement="right" data-html="true" data-content="{{nl2br compare.description}}" title="" data-original-title="{{compare.title}}"><span class="label label-info"><i class="icon icon-info-sign icon-white"></i></span></a>
+          {{#unless _last}}, {{/unless}}
+        {{/if}}
+      {{/if}}
+
+      {{#if typeIns}}
+        <ins>{{compare.name}}</ins>
+        {{#if compare.title}}
+          &nbsp;<a href="#" data-toggle="popover" data-placement="right" data-html="true" data-content="{{nl2br compare.description}}" title="" data-original-title="{{compare.title}}"><span class="label label-info"><i class="icon icon-info-sign icon-white"></i></span></a>
+          {{#unless _last}}, {{/unless}}
+        {{/if}}
+      {{/if}}
+
+      {{#if typeDel}}
+        <del>{{compare.name}}</del>
+        {{#if compare.title}}
+          &nbsp;<a href="#" data-toggle="popover" data-placement="right" data-html="true" data-content="{{nl2br compare.description}}" title="" data-original-title="{{compare.title}}"><span class="label label-info"><i class="icon icon-info-sign icon-white"></i></span></a>
+          {{#unless _last}}, {{/unless}}
+        {{/if}}
+      {{/if}}
+    {{/if}}
+  {{/each_compare_list_field}}
+</script>
+
+<script id="template-article-compare-param-block" type="text/x-handlebars-template">
+  {{#if source}}
+    {{#each_compare_keys source.fields compare.fields}}
+      {{#if typeSame}}
+        <h2>{{__ source.key}}</h2>
+        <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">{{#if _col1}}{{__ _col1}}{{else}}{{__ "Field"}}{{/if}}</th>
+            {{#if ../../_hasType}}<th style="width: 10%">{{__ "Type"}}</th>{{/if}}
+            <th style="width: {{#if _hasType}}60%{{else}}70%{{/if}}">{{__ "Description"}}</th>
+          </tr>
+        </thead>
+        {{subTemplate "article-compare-param-block-body" source=source.value compare=compare.value _hasType=../../_hasType}}
+        </table>
+      {{/if}}
+
+      {{#if typeIns}}
+        <h2><ins>{{__ source.key}}</ins></h2>
+        <table class="ins">
+        <thead>
+          <tr>
+            <th style="width: 30%">{{#if _col1}}{{__ _col1}}{{else}}{{__ "Field"}}{{/if}}</th>
+            {{#if ../../_hasType}}<th style="width: 10%">{{__ "Type"}}</th>{{/if}}
+            <th style="width: {{#if _hasType}}60%{{else}}70%{{/if}}">{{__ "Description"}}</th>
+          </tr>
+        </thead>
+        {{subTemplate "article-compare-param-block-body" source=source.value compare=source.value _hasType=../../_hasType}}
+        </table>
+      {{/if}}
+
+      {{#if typeDel}}
+        <h2><del>{{__ compare.key}}</del></h2>
+        <table class="del">
+        <thead>
+          <tr>
+            <th style="width: 30%">{{#if _col1}}{{__ _col1}}{{else}}{{__ "Field"}}{{/if}}</th>
+            {{#if ../../_hasType}}<th style="width: 10%">{{__ "Type"}}</th>{{/if}}
+            <th style="width: {{#if _hasType}}60%{{else}}70%{{/if}}">{{__ "Description"}}</th>
+          </tr>
+        </thead>
+        {{subTemplate "article-compare-param-block-body" source=compare.value compare=compare.value _hasType=../../_hasType}}
+        </table>
+      {{/if}}
+    {{/each_compare_keys}}
+
+    <ul class="nav nav-tabs nav-tabs-examples">
+    {{#each_compare_title source.examples compare.examples}}
+
+      {{#if typeSame}}
+        <li{{#if_eq index compare=0}} class="active"{{/if_eq}}>
+          <a href="#{{../../section}}-compare-examples-{{../../article.id}}-{{index}}">{{{showDiff source.title compare.title}}}</a>
+        </li>
+      {{/if}}
+
+      {{#if typeIns}}
+        <li{{#if_eq index compare=0}} class="active"{{/if_eq}}>
+          <a href="#{{../../section}}-compare-examples-{{../../article.id}}-{{index}}"><ins>{{{source.title}}}</ins></a>
+        </li>
+      {{/if}}
+
+      {{#if typeDel}}
+        <li{{#if_eq index compare=0}} class="active"{{/if_eq}}>
+          <a href="#{{../../section}}-compare-examples-{{../../article.id}}-{{index}}"><del>{{{compare.title}}}</del></a>
+        </li>
+      {{/if}}
+
+    {{/each_compare_title}}
+    </ul>
+
+    <div class="tab-content">
+    {{#each_compare_title source.examples compare.examples}}
+
+      {{#if typeSame}}
+        <div class="tab-pane{{#if_eq index compare=0}} active{{/if_eq}}" id="{{../../section}}-compare-examples-{{../../article.id}}-{{index}}">
+          <pre class="prettyprint language-{{source.type}}" data-type="{{source.type}}"><code>{{{showDiff source.content compare.content}}}</code></pre>
+        </div>
+      {{/if}}
+
+      {{#if typeIns}}
+        <div class="tab-pane{{#if_eq index compare=0}} active{{/if_eq}}" id="{{../../section}}-compare-examples-{{../../article.id}}-{{index}}">
+          <pre class="prettyprint language-{{source.type}}" data-type="{{source.type}}"><code>{{{source.content}}}</code></pre>
+        </div>
+      {{/if}}
+
+      {{#if typeDel}}
+        <div class="tab-pane{{#if_eq index compare=0}} active{{/if_eq}}" id="{{../../section}}-compare-examples-{{../../article.id}}-{{index}}">
+          <pre class="prettyprint language-{{source.type}}" data-type="{{compare.type}}"><code>{{{compare.content}}}</code></pre>
+        </div>
+      {{/if}}
+
+    {{/each_compare_title}}
+    </div>
+
+  {{/if}}
+</script>
+
+<script id="template-article-compare-param-block-body" type="text/x-handlebars-template">
+  <tbody>
+    {{#each_compare_field source compare}}
+      {{#if typeSame}}
+        <tr>
+          <td class="code">
+            {{{splitFill source.field "." "&nbsp;&nbsp;"}}}
+            {{#if source.optional}}
+              {{#if compare.optional}} <span class="label label-optional">{{__ "optional"}}</span>
+              {{else}} <span class="label label-optional label-ins">{{__ "optional"}}</span>
+              {{/if}}
+            {{else}}
+              {{#if compare.optional}} <span class="label label-optional label-del">{{__ "optional"}}</span>{{/if}}
+            {{/if}}
+          </td>
+
+        {{#if source.type}}
+          {{#if compare.type}}
+          <td>{{{showDiff source.type compare.type}}}</td>
+          {{else}}
+          <td>{{{source.type}}}</td>
+          {{/if}}
+        {{else}}
+          {{#if compare.type}}
+          <td>{{{compare.type}}}</td>
+          {{else}}
+            {{#if ../../../../_hasType}}<td></td>{{/if}}
+          {{/if}}
+        {{/if}}
+          <td>
+            {{{showDiff source.description compare.description "nl2br"}}}
+            {{#if source.defaultValue}}<p class="default-value">{{__ "Default value:"}} <code>{{{showDiff source.defaultValue compare.defaultValue}}}</code><p>{{/if}}
+          </td>
+        </tr>
+      {{/if}}
+
+      {{#if typeIns}}
+        <tr class="ins">
+          <td class="code">
+            {{{splitFill source.field "." "&nbsp;&nbsp;"}}}
+            {{#if source.optional}} <span class="label label-optional label-ins">{{__ "optional"}}</span>{{/if}}
+          </td>
+
+        {{#if source.type}}
+          <td>{{{source.type}}}</td>
+        {{else}}
+          {{{typRowTd}}}
+        {{/if}}
+
+          <td>
+            {{{nl2br source.description}}}
+            {{#if source.defaultValue}}<p class="default-value">{{__ "Default value:"}} <code>{{{source.defaultValue}}}</code><p>{{/if}}
+          </td>
+        </tr>
+      {{/if}}
+
+      {{#if typeDel}}
+        <tr class="del">
+          <td class="code">
+            {{{splitFill compare.field "." "&nbsp;&nbsp;"}}}
+            {{#if compare.optional}} <span class="label label-optional label-del">{{__ "optional"}}</span>{{/if}}
+          </td>
+
+        {{#if compare.type}}
+          <td>{{{compare.type}}}</td>
+        {{else}}
+          {{{typRowTd}}}
+        {{/if}}
+
+          <td>
+            {{{nl2br compare.description}}}
+            {{#if compare.defaultValue}}<p class="default-value">{{__ "Default value:"}} <code>{{{compare.defaultValue}}}</code><p>{{/if}}
+          </td>
+        </tr>
+      {{/if}}
+
+    {{/each_compare_field}}
+  </tbody>
+</script>
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div id="sidenav" class="span2">
+<nav id="scrollingNav">
+  <ul class="sidenav nav nav-list">
+          <li class="nav-header" data-group="CATEGORIAS"><a href="#api-CATEGORIAS">CATEGORIAS</a></li>
+        <li class="is-new" data-group="CATEGORIAS" data-name="DeleteCategoria" data-version="0.0.1">
+          <a href="#api-CATEGORIAS-DeleteCategoria">      Eliminar una Categoría</a>
+        </li>
+        <li class="is-new" data-group="CATEGORIAS" data-name="GetPublicaiones" data-version="0.0.1">
+          <a href="#api-CATEGORIAS-GetPublicaiones">      Obtiene la información de todas las Categorias Existentes</a>
+        </li>
+        <li class="is-new" data-group="CATEGORIAS" data-name="GetPCategoria" data-version="0.0.1">
+          <a href="#api-CATEGORIAS-GetPCategoria">      Obtiene la información de una Publicación especifica</a>
+        </li>
+        <li class="is-new" data-group="CATEGORIAS" data-name="PutCategoriaA" data-version="0.0.1">
+          <a href="#api-CATEGORIAS-PutCategoriaA">Actualiza la información de un categoria</a>
+        </li>
+        <li class="is-new" data-group="CATEGORIAS" data-name="PostCategoriaN" data-version="0.0.1">
+          <a href="#api-CATEGORIAS-PostCategoriaN">Crea un Nueva Categoria</a>
+        </li>
+          <li class="nav-header" data-group="COMENTARIO"><a href="#api-COMENTARIO">COMENTARIOS</a></li>
+        <li class="is-new" data-group="COMENTARIO" data-name="DeleteComentario" data-version="0.0.1">
+          <a href="#api-COMENTARIO-DeleteComentario">      Eliminar un Comentario</a>
+        </li>
+        <li class="is-new" data-group="COMENTARIO" data-name="GetComentarios" data-version="0.0.1">
+          <a href="#api-COMENTARIO-GetComentarios">      Obtiene la información de todos los Comentarios Existentes</a>
+        </li>
+        <li class="is-new" data-group="COMENTARIO" data-name="GetComentario" data-version="0.0.1">
+          <a href="#api-COMENTARIO-GetComentario">      Obtiene la información de un comentario especifico</a>
+        </li>
+        <li class="is-new" data-group="COMENTARIO" data-name="PutComentarioA" data-version="0.0.1">
+          <a href="#api-COMENTARIO-PutComentarioA">Actualiza la información de un comentario</a>
+        </li>
+        <li class="is-new" data-group="COMENTARIO" data-name="PostComentarioN" data-version="0.0.1">
+          <a href="#api-COMENTARIO-PostComentarioN">Crea un Comentario</a>
+        </li>
+          <li class="nav-header" data-group="PUBLICACIÓN"><a href="#api-PUBLICACI%C3%93N">PUBLICACIONES</a></li>
+        <li class="is-new" data-group="PUBLICACIÓN" data-name="DeletePublicacion" data-version="0.0.1">
+          <a href="#api-PUBLICACI%C3%93N-DeletePublicacion">      Eliminar una Publicación</a>
+        </li>
+        <li class="is-new" data-group="PUBLICACIÓN" data-name="GetPublicaiones" data-version="0.0.1">
+          <a href="#api-PUBLICACI%C3%93N-GetPublicaiones">      Obtiene la información de todas las Publicaciones Existentes</a>
+        </li>
+        <li class="is-new" data-group="PUBLICACIÓN" data-name="GetPublicaion" data-version="0.0.1">
+          <a href="#api-PUBLICACI%C3%93N-GetPublicaion">      Obtiene la información de una Publicación especifica</a>
+        </li>
+        <li class="is-new" data-group="PUBLICACIÓN" data-name="PutPublicaionA" data-version="0.0.1">
+          <a href="#api-PUBLICACI%C3%93N-PutPublicaionA">Actualiza la información de una Publicación</a>
+        </li>
+        <li class="is-new" data-group="PUBLICACIÓN" data-name="PostPublicaciónN" data-version="0.0.1">
+          <a href="#api-PUBLICACI%C3%93N-PostPublicaci%C3%B3nN">Crea una nueva Publicación</a>
+        </li>
+          <li class="nav-header" data-group="TIPOS DE USUARIO"><a href="#api-TIPOS%20DE%20USUARIO">TIPOS DE USUARIOS</a></li>
+        <li class="is-new" data-group="TIPOS DE USUARIO" data-name="DeleteTipoUsuarioD" data-version="0.0.1">
+          <a href="#api-TIPOS%20DE%20USUARIO-DeleteTipoUsuarioD">      Eliminar un Tipo de Usuario</a>
+        </li>
+        <li class="is-new" data-group="TIPOS DE USUARIO" data-name="GetTipo1" data-version="0.0.1">
+          <a href="#api-TIPOS%20DE%20USUARIO-GetTipo1">      Obtiene la información de todos los tipos de usuarios</a>
+        </li>
+        <li class="is-new" data-group="TIPOS DE USUARIO" data-name="GetTipo" data-version="0.0.1">
+          <a href="#api-TIPOS%20DE%20USUARIO-GetTipo">      Obtiene la información de un tipo de usuario especifico</a>
+        </li>
+        <li class="is-new" data-group="TIPOS DE USUARIO" data-name="PutTipoUsuarioA" data-version="0.0.1">
+          <a href="#api-TIPOS%20DE%20USUARIO-PutTipoUsuarioA">Actualiza la información de un tipo de usuario</a>
+        </li>
+        <li class="is-new" data-group="TIPOS DE USUARIO" data-name="PostTipoUsuarioN" data-version="0.0.1">
+          <a href="#api-TIPOS%20DE%20USUARIO-PostTipoUsuarioN">Crea un Nuevo tipo de usuario </a>
+        </li>
+          <li class="nav-header" data-group="USUARIO"><a href="#api-USUARIO">USUARIOS</a></li>
+        <li class="is-new" data-group="USUARIO" data-name="GetUsuarios" data-version="0.0.1">
+          <a href="#api-USUARIO-GetUsuarios">      Obtiene la información de todos los usuarios Existentes</a>
+        </li>
+        <li class="is-new" data-group="USUARIO" data-name="GetUsuario" data-version="0.0.1">
+          <a href="#api-USUARIO-GetUsuario">      Obtiene la información de un usuario</a>
+        </li>
+        <li class="is-new" data-group="USUARIO" data-name="DeleteUser" data-version="0.0.1">
+          <a href="#api-USUARIO-DeleteUser">     Elimina un usuario</a>
+        </li>
+        <li class="is-new" data-group="USUARIO" data-name="PutUsuarioA" data-version="0.0.1">
+          <a href="#api-USUARIO-PutUsuarioA">Actualiza la información de un usuario</a>
+        </li>
+        <li class="is-new" data-group="USUARIO" data-name="PostUsuarioN" data-version="0.0.1">
+          <a href="#api-USUARIO-PostUsuarioN">Crea un usuario</a>
+        </li>
+  </ul>
+</nav>
+</div>
+    <div id="content">
+      <div id="project">
+  <div class="pull-left">
+    <h1>APIREST</h1>
+    <h2>Api Proyecto Privado</h2>
+  </div>
+  <div class="pull-right">
+    <div class="btn-group">
+      <button id="version" class="btn btn-large dropdown-toggle" data-toggle="dropdown">
+        <strong>0.0.1</strong> <span class="caret"></span>
+      </button>
+      <ul id="versions" class="dropdown-menu open-left">
+          <li><a id="compareAllWithPredecessor" href="#">Compare all with predecessor</a></li>
+          <li class="divider"></li>
+          <li class="disabled"><a href="#">show up to version:</a></li>
+        <li class="version"><a href="#">0.0.1</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>
+      <div id="header"></div>
+      <div id="sections">
+  <section id="api-CATEGORIAS">
+    <h1>CATEGORIAS</h1>
+      <div id="api-CATEGORIAS-DeleteCategoria">
+        
+  <article id="api-CATEGORIAS-DeleteCategoria-0.0.1" data-group="CATEGORIAS" data-name="DeleteCategoria" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>CATEGORIAS -       Eliminar una Categoría</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="delete"><code><span class="pln">http://api.servicios.com:8080/categoria_eliminar/:idcategoria</span></code></pre>
+
+
+
+    
+
+    
+      <h2>Parameter</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">idcategoria</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>identificador de la Categoría a eliminar.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>código HTTP</p> 
+              </td>
+            <td>
+            <p>La solicitud se a realizado con exito</p> 
+            
+            
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">Eliminado con exito</td>
+              <td>
+                <p>Json</p> 
+              </td>
+            <td>
+            <p>Dependiendo del resultado de la solicitud.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-CATEGORIAS-DeleteCategoria-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-CATEGORIAS-DeleteCategoria-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">{</span><span class="pln">
+</span><span class="str">"Eliminado con exito"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">ResourceNotFound</td>
+            <td>
+            <p>eliminar Categoría no existe</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-CATEGORIAS-DeleteCategoria-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-CATEGORIAS-DeleteCategoria-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  code</span><span class="pun">:</span><span class="pln"> </span><span class="str">"ResourceNotFound"</span><span class="pun">,</span><span class="pln">
+  message</span><span class="pun">:</span><span class="pln"> </span><span class="str">"/categoria_eliminar does not exist"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-CATEGORIAS-GetPublicaiones">
+        
+  <article id="api-CATEGORIAS-GetPublicaiones-0.0.1" data-group="CATEGORIAS" data-name="GetPublicaiones" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>CATEGORIAS -       Obtiene la información de todas las Categorias Existentes</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">http://api.servicios.com:8080/categoria</span></code></pre>
+
+
+
+    
+
+    
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Seleccion Exitosa</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-CATEGORIAS-GetPublicaiones-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-CATEGORIAS-GetPublicaiones-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idcategoria </span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln">
+        nombre </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Matematica"</span><span class="pun">,</span><span class="pln">
+        descripcion </span><span class="pun">:</span><span class="pln"> </span><span class="str">"curso instructivo"</span><span class="pun">,</span><span class="pln">
+        fecha </span><span class="pun">:</span><span class="pln"> </span><span class="str">"2015-10-02T06:00:00.000Z"</span><span class="pun">,</span><span class="pln">
+        usuario_idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">],</span><span class="pln">
+ </span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idcategoria </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        nombre </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Fisica"</span><span class="pun">,</span><span class="pln">
+        descripcion </span><span class="pun">:</span><span class="pln"> </span><span class="str">"curso instructivo"</span><span class="pun">,</span><span class="pln">
+        fecha </span><span class="pun">:</span><span class="pln"> </span><span class="str">"2015-10-21T06:00:00.000Z"</span><span class="pun">,</span><span class="pln">
+        usuario_idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">3</span><span class="pun">,</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">],</span><span class="pln">
+ </span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idcategoria </span><span class="pun">:</span><span class="pln"> </span><span class="lit">4</span><span class="pun">,</span><span class="pln">
+        nombre </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Calculo"</span><span class="pun">,</span><span class="pln">
+        descripcion </span><span class="pun">:</span><span class="pln"> </span><span class="str">"curso instructivo"</span><span class="pun">,</span><span class="pln">
+        fecha </span><span class="pun">:</span><span class="pln"> </span><span class="str">"2015-10-25T06:00:00.000Z"</span><span class="pun">,</span><span class="pln">
+        usuario_idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">5</span><span class="pun">,</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">]</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">UserNotFound</td>
+            <td>
+            <p>Error al seleccionar las Categorias.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-CATEGORIAS-GetPublicaiones-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-CATEGORIAS-GetPublicaiones-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"error"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"UserNotFound"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-CATEGORIAS-GetPCategoria">
+        
+  <article id="api-CATEGORIAS-GetPCategoria-0.0.1" data-group="CATEGORIAS" data-name="GetPCategoria" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>CATEGORIAS -       Obtiene la información de una Publicación especifica</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">http://api.servicios.com:8080/categoria/:idcategoria</span></code></pre>
+
+
+
+    
+
+    
+      <h2>Parameter</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">idcategoria</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>identificador de la Categoria a seleccionar</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Seleccion Exitosa</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-CATEGORIAS-GetPCategoria-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-CATEGORIAS-GetPCategoria-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idcategoria </span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln">
+        nombre </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Matematica"</span><span class="pun">,</span><span class="pln">
+        descripcion </span><span class="pun">:</span><span class="pln"> </span><span class="str">"curso instructivo"</span><span class="pun">,</span><span class="pln">
+        fecha </span><span class="pun">:</span><span class="pln"> </span><span class="str">"2015-10-02T06:00:00.000Z"</span><span class="pun">,</span><span class="pln">
+        usuario_idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">]</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">UserNotFound</td>
+            <td>
+            <p>Error en la seleccion de la Categoria.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-CATEGORIAS-GetPCategoria-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-CATEGORIAS-GetPCategoria-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"error"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"UserNotFound"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-CATEGORIAS-PutCategoriaA">
+        
+  <article id="api-CATEGORIAS-PutCategoriaA-0.0.1" data-group="CATEGORIAS" data-name="PutCategoriaA" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>CATEGORIAS - Actualiza la información de un categoria</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">http://api.servicios.com:8080/categoria_actualizar/:idcategoria</span></code></pre>
+
+
+
+    
+
+    
+      <h2>Parameter</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">idcategoria</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Es el id de la categoria que se desea Actualizar.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Código 200 conforme todo ha ido bien.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-CATEGORIAS-PutCategoriaA-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-CATEGORIAS-PutCategoriaA-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"message"</span><span class="pun">:</span><span class="pln"> </span><span class="typ">Transaccion</span><span class="pln"> </span><span class="typ">Exitosa</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">categoriaNotFound</td>
+            <td>
+            <p>El id de la categoria no se encontro.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-CATEGORIAS-PutCategoriaA-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-CATEGORIAS-PutCategoriaA-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"error"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"categoriaNotFound"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-CATEGORIAS-PostCategoriaN">
+        
+  <article id="api-CATEGORIAS-PostCategoriaN-0.0.1" data-group="CATEGORIAS" data-name="PostCategoriaN" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>CATEGORIAS - Crea un Nueva Categoria</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">http://api.servicios.com:8080/categoria_nuevo</span></code></pre>
+
+
+
+    
+
+    
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Código 0 conforme todo ha ido bien.</p> 
+            
+            
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">idcategoria</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Id de la Nueva Categoria que ha sido registrado.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-CATEGORIAS-PostCategoriaN-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-CATEGORIAS-PostCategoriaN-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">{</span><span class="pln">
+    </span><span class="str">"results"</span><span class="pun">:</span><span class="pln"> idcategoria
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">CategoriaBadResponse</td>
+            <td>
+            <p>La Categoria no ha podido crearse</p> 
+            
+            
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">BaD-Response</td>
+            <td>
+            <p>: HTTP/1.1 400 Bad Response { "error": "BadResponse" }</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+
+    
+
+
+  </article>
+
+      </div>
+  </section>
+
+  <section id="api-COMENTARIO">
+    <h1>COMENTARIOS</h1>
+      <div id="api-COMENTARIO-DeleteComentario">
+        
+  <article id="api-COMENTARIO-DeleteComentario-0.0.1" data-group="COMENTARIO" data-name="DeleteComentario" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>COMENTARIOS -       Eliminar un Comentario</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="delete"><code><span class="pln">http://api.servicios.com:8080/comentario_eliminar/:idcomentario</span></code></pre>
+
+
+
+    
+
+    
+      <h2>Parameter</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">idcomentario</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>identificador del comentario a eliminar.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>código HTTP</p> 
+              </td>
+            <td>
+            <p>La solicitud se a realizado con exito</p> 
+            
+            
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">Eliminado con exito</td>
+              <td>
+                <p>Json</p> 
+              </td>
+            <td>
+            <p>Dependiendo del resultado de la solicitud.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-COMENTARIO-DeleteComentario-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-COMENTARIO-DeleteComentario-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">{</span><span class="pln">
+</span><span class="str">"Eliminado con exito"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">ResourceNotFound</td>
+            <td>
+            <p>eliminar comentario no existe</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-COMENTARIO-DeleteComentario-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-COMENTARIO-DeleteComentario-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  code</span><span class="pun">:</span><span class="pln"> </span><span class="str">"ResourceNotFound"</span><span class="pun">,</span><span class="pln">
+  message</span><span class="pun">:</span><span class="pln"> </span><span class="str">"/comentario_eliminar does not exist"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-COMENTARIO-GetComentarios">
+        
+  <article id="api-COMENTARIO-GetComentarios-0.0.1" data-group="COMENTARIO" data-name="GetComentarios" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>COMENTARIOS -       Obtiene la información de todos los Comentarios Existentes</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">http://api.servicios.com:8080/comentario</span></code></pre>
+
+
+
+    
+
+    
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Seleccion Exitosa</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-COMENTARIO-GetComentarios-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-COMENTARIO-GetComentarios-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idcomentario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        publicacion_idpublicacion </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        fecha_public </span><span class="pun">:</span><span class="pln"> </span><span class="str">"2015-10-31T06:00:00.000Z"</span><span class="pun">,</span><span class="pln">
+        usuario_idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">9</span><span class="pun">,</span><span class="pln">
+        comentario </span><span class="pun">:</span><span class="pln"> </span><span class="str">"gracias por la informacion"</span><span class="pun">,</span><span class="pln">
+        estado </span><span class="pun">:</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">],</span><span class="pln">
+ </span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idcomentario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">3</span><span class="pun">,</span><span class="pln">
+        publicacion_idpublicacion </span><span class="pun">:</span><span class="pln"> </span><span class="lit">3</span><span class="pun">,</span><span class="pln">
+        fecha_public </span><span class="pun">:</span><span class="pln"> </span><span class="str">"2015-11-30T07:00:00.000Z"</span><span class="pun">,</span><span class="pln">
+        usuario_idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">7</span><span class="pun">,</span><span class="pln">
+        comentario </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Gracias"</span><span class="pun">,</span><span class="pln">
+        estado </span><span class="pun">:</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">],</span><span class="pln">
+ </span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idcomentario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">4</span><span class="pun">,</span><span class="pln">
+        publicacion_idpublicacion </span><span class="pun">:</span><span class="pln"> </span><span class="lit">4</span><span class="pun">,</span><span class="pln">
+        fecha_public </span><span class="pun">:</span><span class="pln"> </span><span class="str">"2015-09-27T08:00:00.000Z"</span><span class="pun">,</span><span class="pln">
+        usuario_idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">3</span><span class="pun">,</span><span class="pln">
+        comentario </span><span class="pun">:</span><span class="pln"> </span><span class="str">"falta claridad en el tema"</span><span class="pun">,</span><span class="pln">
+        estado </span><span class="pun">:</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">]</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">UserNotFound</td>
+            <td>
+            <p>Error al seleccionar los Comentarios.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-COMENTARIO-GetComentarios-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-COMENTARIO-GetComentarios-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"error"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"UserNotFound"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-COMENTARIO-GetComentario">
+        
+  <article id="api-COMENTARIO-GetComentario-0.0.1" data-group="COMENTARIO" data-name="GetComentario" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>COMENTARIOS -       Obtiene la información de un comentario especifico</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">http://api.servicios.com:8080/comentario/:idcomentario</span></code></pre>
+
+
+
+    
+
+    
+      <h2>Parameter</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">idusuario</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>identificador del comentario a seleccionar</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Seleccion Exitosa</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-COMENTARIO-GetComentario-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-COMENTARIO-GetComentario-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idcomentario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        publicacion_idpublicacion </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        fecha_public </span><span class="pun">:</span><span class="pln"> </span><span class="str">"2015-10-31T06:00:00.000Z"</span><span class="pun">,</span><span class="pln">
+        usuario_idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">9</span><span class="pun">,</span><span class="pln">
+        comentario </span><span class="pun">:</span><span class="pln"> </span><span class="str">"gracias por la informacion"</span><span class="pun">,</span><span class="pln">
+        estado </span><span class="pun">:</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">]</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">UserNotFound</td>
+            <td>
+            <p>Error en la seleccion del comentario.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-COMENTARIO-GetComentario-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-COMENTARIO-GetComentario-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"error"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"UserNotFound"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-COMENTARIO-PutComentarioA">
+        
+  <article id="api-COMENTARIO-PutComentarioA-0.0.1" data-group="COMENTARIO" data-name="PutComentarioA" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>COMENTARIOS - Actualiza la información de un comentario</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">http://api.servicios.com:8080/comentario_actualizar/:idcomentario</span></code></pre>
+
+
+
+    
+
+    
+      <h2>Parameter</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">idcomentario</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Id del comentario que se desea Actualizar.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Código 200 conforme todo ha ido bien.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-COMENTARIO-PutComentarioA-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-COMENTARIO-PutComentarioA-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"message"</span><span class="pun">:</span><span class="pln"> </span><span class="typ">Transaccion</span><span class="pln"> </span><span class="typ">Exitosa</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">comentarioNotFound</td>
+            <td>
+            <p>El id del comentario no se encontro.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-COMENTARIO-PutComentarioA-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-COMENTARIO-PutComentarioA-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"error"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"UserNotFound"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-COMENTARIO-PostComentarioN">
+        
+  <article id="api-COMENTARIO-PostComentarioN-0.0.1" data-group="COMENTARIO" data-name="PostComentarioN" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>COMENTARIOS - Crea un Comentario</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">http://api.servicios.com:8080/comentario_nuevo</span></code></pre>
+
+
+
+    
+
+    
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Código 0 conforme todo ha ido bien.</p> 
+            
+            
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">Idcomentario</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Id del Nuevo comenrario que a sido registrado.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-COMENTARIO-PostComentarioN-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-COMENTARIO-PostComentarioN-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">{</span><span class="pln">
+    </span><span class="str">"results"</span><span class="pun">:</span><span class="pln"> idcomentario
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">ComentarioBadResponse</td>
+            <td>
+            <p>El Comentario no ha podido crearse</p> 
+            
+            
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">BaD-Response</td>
+            <td>
+            <p>: HTTP/1.1 400 Bad Response { "error": "BadResponse" }</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+
+    
+
+
+  </article>
+
+      </div>
+  </section>
+
+  <section id="api-PUBLICACIÓN">
+    <h1>PUBLICACIONES</h1>
+      <div id="api-PUBLICACIÓN-DeletePublicacion">
+        
+  <article id="api-PUBLICACIÓN-DeletePublicacion-0.0.1" data-group="PUBLICACIÓN" data-name="DeletePublicacion" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>PUBLICACIONES -       Eliminar una Publicación</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="delete"><code><span class="pln">http://api.servicios.com:8080/publicacion_eliminar/:idpublicacion</span></code></pre>
+
+
+
+    
+
+    
+      <h2>Parameter</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">idpublicacion</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>identificador de la Publicación a eliminar.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>código HTTP</p> 
+              </td>
+            <td>
+            <p>La solicitud se a realizado con exito</p> 
+            
+            
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">Eliminado con exito</td>
+              <td>
+                <p>Json</p> 
+              </td>
+            <td>
+            <p>Dependiendo del resultado de la solicitud.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-PUBLICACI%C3%93N-DeletePublicacion-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-PUBLICACIÓN-DeletePublicacion-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">{</span><span class="pln">
+</span><span class="str">"Eliminado con exito"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">ResourceNotFound</td>
+            <td>
+            <p>eliminar Publicación no existe</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-PUBLICACI%C3%93N-DeletePublicacion-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-PUBLICACIÓN-DeletePublicacion-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  code</span><span class="pun">:</span><span class="pln"> </span><span class="str">"ResourceNotFound"</span><span class="pun">,</span><span class="pln">
+  message</span><span class="pun">:</span><span class="pln"> </span><span class="str">"/publicacion_eliminar does not exist"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-PUBLICACIÓN-GetPublicaiones">
+        
+  <article id="api-PUBLICACIÓN-GetPublicaiones-0.0.1" data-group="PUBLICACIÓN" data-name="GetPublicaiones" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>PUBLICACIONES -       Obtiene la información de todas las Publicaciones Existentes</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">http://api.servicios.com:8080/publicacion</span></code></pre>
+
+
+
+    
+
+    
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Seleccion Exitosa</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-PUBLICACI%C3%93N-GetPublicaiones-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-PUBLICACIÓN-GetPublicaiones-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idpublicacion </span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln">
+        usuario_idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln">
+        categoria_idcategoria </span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln">
+        titulo </span><span class="pun">:</span><span class="pln"> </span><span class="str">"primera Practica"</span><span class="pun">,</span><span class="pln">
+        descripcion </span><span class="pun">:</span><span class="pln"> </span><span class="str">"veremos la teoria de esta calse"</span><span class="pun">,</span><span class="pln">
+        fecha_public </span><span class="pun">:</span><span class="pln"> </span><span class="str">"2015-10-27"</span><span class="pun">,</span><span class="pln">
+        </span><span class="typ">Estado</span><span class="pln"> </span><span class="pun">:</span><span class="pln"> </span><span class="lit">0</span><span class="pln">
+      </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">],</span><span class="pln">
+ </span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idpublicacion </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        usuario_idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">5</span><span class="pun">,</span><span class="pln">
+        categoria_idcategoria </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        titulo </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Practicando"</span><span class="pun">,</span><span class="pln">
+        descripcion </span><span class="pun">:</span><span class="pln"> </span><span class="str">"veremos la teoria"</span><span class="pun">,</span><span class="pln">
+        fecha_public </span><span class="pun">:</span><span class="pln"> </span><span class="str">"2015-11-23"</span><span class="pun">,</span><span class="pln">
+        </span><span class="typ">Estado</span><span class="pln"> </span><span class="pun">:</span><span class="pln"> </span><span class="lit">0</span><span class="pln">
+      </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">],</span><span class="pln">
+ </span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idpublicacion </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        usuario_idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">7</span><span class="pun">,</span><span class="pln">
+        categoria_idcategoria </span><span class="pun">:</span><span class="pln"> </span><span class="lit">5</span><span class="pun">,</span><span class="pln">
+        titulo </span><span class="pun">:</span><span class="pln"> </span><span class="str">"inicinado las practicas"</span><span class="pun">,</span><span class="pln">
+        descripcion </span><span class="pun">:</span><span class="pln"> </span><span class="str">"programar... programar..."</span><span class="pun">,</span><span class="pln">
+        fecha_public </span><span class="pun">:</span><span class="pln"> </span><span class="str">"2015-08-02"</span><span class="pun">,</span><span class="pln">
+        </span><span class="typ">Estado</span><span class="pln"> </span><span class="pun">:</span><span class="pln"> </span><span class="lit">0</span><span class="pln">
+      </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">]</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">UserNotFound</td>
+            <td>
+            <p>Error al seleccionar las Publicaciones.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-PUBLICACI%C3%93N-GetPublicaiones-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-PUBLICACIÓN-GetPublicaiones-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"error"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"UserNotFound"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-PUBLICACIÓN-GetPublicaion">
+        
+  <article id="api-PUBLICACIÓN-GetPublicaion-0.0.1" data-group="PUBLICACIÓN" data-name="GetPublicaion" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>PUBLICACIONES -       Obtiene la información de una Publicación especifica</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">http://api.servicios.com:8080/publicacion/:idpublicacion</span></code></pre>
+
+
+
+    
+
+    
+      <h2>Parameter</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">idusuario</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>identificador de la Publicación a seleccionar</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Seleccion Exitosa</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-PUBLICACI%C3%93N-GetPublicaion-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-PUBLICACIÓN-GetPublicaion-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idpublicacion </span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln">
+        usuario_idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln">
+        categoria_idcategoria </span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln">
+        titulo </span><span class="pun">:</span><span class="pln"> </span><span class="str">"primera Practica"</span><span class="pun">,</span><span class="pln">
+        descripcion </span><span class="pun">:</span><span class="pln"> </span><span class="str">"veremos la teoria de esta calse"</span><span class="pun">,</span><span class="pln">
+        fecha_public </span><span class="pun">:</span><span class="pln"> </span><span class="str">"2015-10-27"</span><span class="pun">,</span><span class="pln">
+        </span><span class="typ">Estado</span><span class="pln"> </span><span class="pun">:</span><span class="pln"> </span><span class="lit">0</span><span class="pln">
+      </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">]</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">UserNotFound</td>
+            <td>
+            <p>Error en la seleccion de la Publicación.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-PUBLICACI%C3%93N-GetPublicaion-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-PUBLICACIÓN-GetPublicaion-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"error"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"UserNotFound"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-PUBLICACIÓN-PutPublicaionA">
+        
+  <article id="api-PUBLICACIÓN-PutPublicaionA-0.0.1" data-group="PUBLICACIÓN" data-name="PutPublicaionA" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>PUBLICACIONES - Actualiza la información de una Publicación</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">http://api.servicios.com:8080/publicacion_actualizar/:idpublicacion</span></code></pre>
+
+
+
+    
+
+    
+      <h2>Parameter</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">idpublicacion</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Id de la Publicación que se desea Actualizar.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Código 200 conforme todo ha ido bien.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-PUBLICACI%C3%93N-PutPublicaionA-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-PUBLICACIÓN-PutPublicaionA-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"message"</span><span class="pun">:</span><span class="pln"> </span><span class="typ">Transaccion</span><span class="pln"> </span><span class="typ">Exitosa</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">UserNotFound</td>
+            <td>
+            <p>El id de la Publicación no se encontro.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-PUBLICACI%C3%93N-PutPublicaionA-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-PUBLICACIÓN-PutPublicaionA-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"error"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"puclicacionNotFound"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-PUBLICACIÓN-PostPublicaciónN">
+        
+  <article id="api-PUBLICACIÓN-PostPublicaciónN-0.0.1" data-group="PUBLICACIÓN" data-name="PostPublicaciónN" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>PUBLICACIONES - Crea una nueva Publicación</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">http://api.servicios.com:8080/publicacion_nuevo</span></code></pre>
+
+
+
+    
+
+    
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Código 0 conforme todo ha ido bien.</p> 
+            
+            
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">idpublicacion</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Id de la nueva Publicación que ha sido registrada.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-PUBLICACI%C3%93N-PostPublicaci%C3%B3nN-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-PUBLICACIÓN-PostPublicaciónN-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">{</span><span class="pln">
+    </span><span class="str">"results"</span><span class="pun">:</span><span class="pln"> idpublicacion
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">PublicacionBadResponse</td>
+            <td>
+            <p>La Publicación no ha podido crearse</p> 
+            
+            
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">BaD-Response</td>
+            <td>
+            <p>: HTTP/1.1 400 Bad Response { "error": "BadResponse" }</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+
+    
+
+
+  </article>
+
+      </div>
+  </section>
+
+  <section id="api-TIPOS DE USUARIO">
+    <h1>TIPOS DE USUARIOS</h1>
+      <div id="api-TIPOS DE USUARIO-DeleteTipoUsuarioD">
+        
+  <article id="api-TIPOS DE USUARIO-DeleteTipoUsuarioD-0.0.1" data-group="TIPOS DE USUARIO" data-name="DeleteTipoUsuarioD" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>TIPOS DE USUARIOS -       Eliminar un Tipo de Usuario</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="delete"><code><span class="pln">http://api.servicios.com:8080/tipo_usuario_eliminar/:idtipo</span></code></pre>
+
+
+
+    
+
+    
+      <h2>Parameter</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">idtipo</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>identificador del tipo de usuario a eliminar.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>código HTTP</p> 
+              </td>
+            <td>
+            <p>La solicitud se a realizado con exito</p> 
+            
+            
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">Eliminado con exito</td>
+              <td>
+                <p>Json</p> 
+              </td>
+            <td>
+            <p>Dependiendo del resultado de la solicitud.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-TIPOS%20DE%20USUARIO-DeleteTipoUsuarioD-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-TIPOS DE USUARIO-DeleteTipoUsuarioD-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">{</span><span class="pln">
+</span><span class="str">"Eliminado con exito"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">ResourceNotFound</td>
+            <td>
+            <p>eliminar Tipo de Usuario no existe</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-TIPOS%20DE%20USUARIO-DeleteTipoUsuarioD-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-TIPOS DE USUARIO-DeleteTipoUsuarioD-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  code</span><span class="pun">:</span><span class="pln"> </span><span class="str">"ResourceNotFound"</span><span class="pun">,</span><span class="pln">
+  message</span><span class="pun">:</span><span class="pln"> </span><span class="str">"/tipo_usuario_eliminar does not exist"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-TIPOS DE USUARIO-GetTipo1">
+        
+  <article id="api-TIPOS DE USUARIO-GetTipo1-0.0.1" data-group="TIPOS DE USUARIO" data-name="GetTipo1" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>TIPOS DE USUARIOS -       Obtiene la información de todos los tipos de usuarios</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">http://api.servicios.com:8080/tipo_usuario</span></code></pre>
+
+
+
+    
+
+    
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Seleccion Exitosa</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-TIPOS%20DE%20USUARIO-GetTipo1-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-TIPOS DE USUARIO-GetTipo1-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idtipo_usuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln">
+        nombre </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Administrador"</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">],</span><span class="pln">
+ </span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idtipo_usuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        nombre </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Usuario"</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">]</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">UserNotFound</td>
+            <td>
+            <p>Error en la seleccion de los tipos de usuarios.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-TIPOS%20DE%20USUARIO-GetTipo1-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-TIPOS DE USUARIO-GetTipo1-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"error"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"UserNotFound"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-TIPOS DE USUARIO-GetTipo">
+        
+  <article id="api-TIPOS DE USUARIO-GetTipo-0.0.1" data-group="TIPOS DE USUARIO" data-name="GetTipo" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>TIPOS DE USUARIOS -       Obtiene la información de un tipo de usuario especifico</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">http://api.servicios.com:8080/tipo_usuario/:idtipo</span></code></pre>
+
+
+
+    
+
+    
+      <h2>Parameter</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">idtipo</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>identificador del tipo de usuario a seleccionar</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Seleccion Exitosa</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-TIPOS%20DE%20USUARIO-GetTipo-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-TIPOS DE USUARIO-GetTipo-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idtipo_usuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln">
+        nombre </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Administrador"</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">]</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">UserNotFound</td>
+            <td>
+            <p>Error en la seleccion del tipo de usuario.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-TIPOS%20DE%20USUARIO-GetTipo-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-TIPOS DE USUARIO-GetTipo-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"error"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"UserNotFound"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-TIPOS DE USUARIO-PutTipoUsuarioA">
+        
+  <article id="api-TIPOS DE USUARIO-PutTipoUsuarioA-0.0.1" data-group="TIPOS DE USUARIO" data-name="PutTipoUsuarioA" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>TIPOS DE USUARIOS - Actualiza la información de un tipo de usuario</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">http://api.servicios.com:8080/tipo_usuario_actualizar/:idtipo</span></code></pre>
+
+
+
+    
+
+    
+      <h2>Parameter</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">idtipo</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>es el id del tipo de usuario que se desea Actualizar</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Código 200 conforme todo ha ido bien.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-TIPOS%20DE%20USUARIO-PutTipoUsuarioA-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-TIPOS DE USUARIO-PutTipoUsuarioA-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"message"</span><span class="pun">:</span><span class="pln"> </span><span class="typ">Transaccion</span><span class="pln"> </span><span class="typ">Exitosa</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">tipoUNotFound</td>
+            <td>
+            <p>El id del tipo de usuario no se encontro.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-TIPOS%20DE%20USUARIO-PutTipoUsuarioA-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-TIPOS DE USUARIO-PutTipoUsuarioA-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"error"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"tipoUNotFound"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-TIPOS DE USUARIO-PostTipoUsuarioN">
+        
+  <article id="api-TIPOS DE USUARIO-PostTipoUsuarioN-0.0.1" data-group="TIPOS DE USUARIO" data-name="PostTipoUsuarioN" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>TIPOS DE USUARIOS - Crea un Nuevo tipo de usuario </h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">http://api.servicios.com:8080/tipo_usuario_nuevo</span></code></pre>
+
+
+
+    
+
+    
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Código 0 conforme todo ha ido bien.</p> 
+            
+            
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">idtipo</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Id del Nuevo Tipo de usuario ha registrarse.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-TIPOS%20DE%20USUARIO-PostTipoUsuarioN-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-TIPOS DE USUARIO-PostTipoUsuarioN-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">{</span><span class="pln">
+    </span><span class="str">"results"</span><span class="pun">:</span><span class="pln"> idcategoria
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">CategoriaBadResponse</td>
+            <td>
+            <p>La categoria no ha podido crearse</p> 
+            
+            
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">BaD-Response</td>
+            <td>
+            <p>: HTTP/1.1 400 Bad Response { "error": "BadResponse" }</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+
+    
+
+
+  </article>
+
+      </div>
+  </section>
+
+  <section id="api-USUARIO">
+    <h1>USUARIOS</h1>
+      <div id="api-USUARIO-GetUsuarios">
+        
+  <article id="api-USUARIO-GetUsuarios-0.0.1" data-group="USUARIO" data-name="GetUsuarios" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>USUARIOS -       Obtiene la información de todos los usuarios Existentes</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">http://api.servicios.com:8080/usuarios</span></code></pre>
+
+
+
+    
+
+    
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Seleccion Exitosa</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-USUARIO-GetUsuarios-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-USUARIO-GetUsuarios-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        tipo_usuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        nombre </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Luis"</span><span class="pun">,</span><span class="pln">
+        correo </span><span class="pun">:</span><span class="pln"> </span><span class="str">"l@gmail.com,"</span><span class="pln">
+        nic </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Luis"</span><span class="pun">,</span><span class="pln">
+        password </span><span class="pun">:</span><span class="pln"> </span><span class="str">"1234"</span><span class="pun">,</span><span class="pln">
+        telefono </span><span class="pun">:</span><span class="pln"> </span><span class="str">"6666666"</span><span class="pun">,</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">],</span><span class="pln">
+ </span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        tipo_usuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        nombre </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Luis"</span><span class="pun">,</span><span class="pln">
+        correo </span><span class="pun">:</span><span class="pln"> </span><span class="str">"l@gmail.com,"</span><span class="pln">
+        nic </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Luis"</span><span class="pun">,</span><span class="pln">
+        password </span><span class="pun">:</span><span class="pln"> </span><span class="str">"1234"</span><span class="pun">,</span><span class="pln">
+        telefono </span><span class="pun">:</span><span class="pln"> </span><span class="str">"6666666"</span><span class="pun">,</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">],</span><span class="pln">
+ </span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        tipo_usuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        nombre </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Luis"</span><span class="pun">,</span><span class="pln">
+        correo </span><span class="pun">:</span><span class="pln"> </span><span class="str">"l@gmail.com,"</span><span class="pln">
+        nic </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Luis"</span><span class="pun">,</span><span class="pln">
+        password </span><span class="pun">:</span><span class="pln"> </span><span class="str">"1234"</span><span class="pun">,</span><span class="pln">
+        telefono </span><span class="pun">:</span><span class="pln"> </span><span class="str">"6666666"</span><span class="pun">,</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">],</span><span class="pln">
+ </span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        tipo_usuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        nombre </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Luis"</span><span class="pun">,</span><span class="pln">
+        correo </span><span class="pun">:</span><span class="pln"> </span><span class="str">"l@gmail.com,"</span><span class="pln">
+        nic </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Luis"</span><span class="pun">,</span><span class="pln">
+        password </span><span class="pun">:</span><span class="pln"> </span><span class="str">"1234"</span><span class="pun">,</span><span class="pln">
+        telefono </span><span class="pun">:</span><span class="pln"> </span><span class="str">"6666666"</span><span class="pun">,</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">],</span><span class="pln">
+ </span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        tipo_usuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        nombre </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Luis"</span><span class="pun">,</span><span class="pln">
+        correo </span><span class="pun">:</span><span class="pln"> </span><span class="str">"l@gmail.com,"</span><span class="pln">
+        nic </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Luis"</span><span class="pun">,</span><span class="pln">
+        password </span><span class="pun">:</span><span class="pln"> </span><span class="str">"1234"</span><span class="pun">,</span><span class="pln">
+        telefono </span><span class="pun">:</span><span class="pln"> </span><span class="str">"6666666"</span><span class="pun">,</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">],</span><span class="pln">
+ </span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        tipo_usuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        nombre </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Luis"</span><span class="pun">,</span><span class="pln">
+        correo </span><span class="pun">:</span><span class="pln"> </span><span class="str">"l@gmail.com,"</span><span class="pln">
+        nic </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Luis"</span><span class="pun">,</span><span class="pln">
+        password </span><span class="pun">:</span><span class="pln"> </span><span class="str">"1234"</span><span class="pun">,</span><span class="pln">
+        telefono </span><span class="pun">:</span><span class="pln"> </span><span class="str">"6666666"</span><span class="pun">,</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">]</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">userNotFound</td>
+            <td>
+            <p>Error al seleccionar los usuarios.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-USUARIO-GetUsuarios-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-USUARIO-GetUsuarios-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"error"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"UserNotFound"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-USUARIO-GetUsuario">
+        
+  <article id="api-USUARIO-GetUsuario-0.0.1" data-group="USUARIO" data-name="GetUsuario" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>USUARIOS -       Obtiene la información de un usuario</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">http://api.servicios.com:8080/usuarios/:idusuario</span></code></pre>
+
+
+
+    
+
+    
+      <h2>Parameter</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">idusuario</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>identificador del usuario a seleccionar</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Seleccion Exitosa</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-USUARIO-GetUsuario-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-USUARIO-GetUsuario-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">[</span><span class="pln">
+     </span><span class="pun">{</span><span class="pln">
+        idusuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        tipo_usuario </span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+        nombre </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Luis"</span><span class="pun">,</span><span class="pln">
+        correo </span><span class="pun">:</span><span class="pln"> </span><span class="str">"l@gmail.com,"</span><span class="pln">
+        nic </span><span class="pun">:</span><span class="pln"> </span><span class="str">"Luis"</span><span class="pun">,</span><span class="pln">
+        password </span><span class="pun">:</span><span class="pln"> </span><span class="str">"1234"</span><span class="pun">,</span><span class="pln">
+        telefono </span><span class="pun">:</span><span class="pln"> </span><span class="str">"6666666"</span><span class="pun">,</span><span class="pln">
+     </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">]</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">userNotFound</td>
+            <td>
+            <p>El Id del usuario no fue encontrado.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-USUARIO-GetUsuario-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-USUARIO-GetUsuario-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"error"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"userNotFound"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-USUARIO-DeleteUser">
+        
+  <article id="api-USUARIO-DeleteUser-0.0.1" data-group="USUARIO" data-name="DeleteUser" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>USUARIOS -      Elimina un usuario</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="delete"><code><span class="pln">http://api.servicios.com:8080/eliminar_usuario/:idusuario</span></code></pre>
+
+
+
+    
+
+    
+      <h2>Parametros</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">idusuario</td>
+              <td>
+                <p>Numero</p> 
+              </td>
+            <td>
+            <p>identificador del Usuario a eliminar.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>código HTTP</p> 
+              </td>
+            <td>
+            <p>La solicitud se a realizado con exito</p> 
+            
+            
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">Eliminado con exito</td>
+              <td>
+                <p>Json</p> 
+              </td>
+            <td>
+            <p>Dependiendo del resultado de la solicitud.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-USUARIO-DeleteUser-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-USUARIO-DeleteUser-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">{</span><span class="pln">
+</span><span class="str">"Eliminado con exito"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">ResourceNotFound</td>
+            <td>
+            <p>eliminar Usuario no existe</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-USUARIO-DeleteUser-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-USUARIO-DeleteUser-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  code</span><span class="pun">:</span><span class="pln"> </span><span class="str">"ResourceNotFound"</span><span class="pun">,</span><span class="pln">
+  message</span><span class="pun">:</span><span class="pln"> </span><span class="str">"/eliminar_usuario does not exist"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-USUARIO-PutUsuarioA">
+        
+  <article id="api-USUARIO-PutUsuarioA-0.0.1" data-group="USUARIO" data-name="PutUsuarioA" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>USUARIOS - Actualiza la información de un usuario</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">http://api.servicios.com:8080/actulizar_usuario/:idusuario</span></code></pre>
+
+
+
+    
+
+    
+      <h2>Parameter</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">idusuario</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Id del usuairio que se desea Actualizar.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Código 200 conforme todo ha ido bien.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-USUARIO-PutUsuarioA-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-USUARIO-PutUsuarioA-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"message"</span><span class="pun">:</span><span class="pln"> </span><span class="typ">Transaccion</span><span class="pln"> </span><span class="typ">Exitosa</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">UserNotFound</td>
+            <td>
+            <p>El id del usuario no se encontro.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#error-examples-USUARIO-PutUsuarioA-0_0_1-0">Error-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="error-examples-USUARIO-PutUsuarioA-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">404</span><span class="pln"> </span><span class="typ">Not</span><span class="pln"> </span><span class="typ">Found</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+  </span><span class="str">"error"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"UserNotFound"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+
+    
+
+
+  </article>
+
+      </div>
+      <div id="api-USUARIO-PostUsuarioN">
+        
+  <article id="api-USUARIO-PostUsuarioN-0.0.1" data-group="USUARIO" data-name="PostUsuarioN" data-version="0.0.1">
+    <div class="pull-left">
+      <h1>USUARIOS - Crea un usuario</h1>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="version btn dropdown-toggle" data-toggle="dropdown">
+          <strong>0.0.1</strong> <span class="caret"></span>
+        </button>
+        <ul class="versions dropdown-menu open-left">
+          <li class="disabled"><a href="#">compare changes to:</a></li>
+          <li class="version"><a href="#">0.0.1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <pre style="" class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">http://api.servicios.com:8080/nuevo_usuario</span></code></pre>
+
+
+
+    
+
+    
+
+    
+      <h2>Success 200</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">200 OK</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Código 0 conforme todo ha ido bien.</p> 
+            
+            
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">userId</td>
+              <td>
+                <p>Number</p> 
+              </td>
+            <td>
+            <p>Id del Nuevo usuario registrado.</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-tabs nav-tabs-examples">
+          <li class="active">
+            <a href="#success-examples-USUARIO-PostUsuarioN-0_0_1-0">Success-Response:</a>
+          </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="success-examples-USUARIO-PostUsuarioN-0_0_1-0">
+        <pre style="" class="prettyprint language-json prettyprinted" data-type="json"><code><span class="pln">HTTP</span><span class="pun">/</span><span class="lit">1.1</span><span class="pln"> </span><span class="lit">200</span><span class="pln"> OK
+</span><span class="pun">{</span><span class="pln">
+    </span><span class="str">"results"</span><span class="pun">:</span><span class="pln"> userId
+</span><span class="pun">}</span></code></pre>
+        </div>
+      </div>
+
+
+    
+      <h2>Error 404</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Field</th>
+            
+            <th style="width: 70%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">UserBadResponse</td>
+            <td>
+            <p>El usuario no ha podido crearse</p> 
+            
+            
+                        </td>
+          </tr>
+          <tr>
+            <td class="code">BaD-Response</td>
+            <td>
+            <p>: HTTP/1.1 400 Bad Response { "error": "BadResponse" }</p> 
+            
+            
+                        </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+
+    
+
+
+  </article>
+
+      </div>
+  </section>
+</div>
+      <div id="footer"></div>
+      <div id="generator">
+      <div class="content">
+        Generated with <a href="http://apidocjs.com/">apidoc</a> 0.13.1 - 2015-10-28T03:52:57.424Z
+      </div>
+</div>
+    </div>
+  </div>
+</div>
+
+
+
+<script data-main="main.js" src="Descripcion%20de%20la%20APIREST%20servicios_files/require.js"></script>
+
+
+</body></html>
